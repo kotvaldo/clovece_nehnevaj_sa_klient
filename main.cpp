@@ -1,8 +1,4 @@
 #include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <unistd.h>
 #include <winsock2.h>
 
 
