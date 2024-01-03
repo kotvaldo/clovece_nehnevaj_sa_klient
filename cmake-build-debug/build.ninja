@@ -49,6 +49,24 @@ cmake_ninja_workdir = C$:/Users/adams/CLionProjects/CloveceNezlobSa/cmake-build-
 
 build cmake_object_order_depends_target_CloveceNezlobSa: phony || CMakeFiles/CloveceNezlobSa.dir
 
+build CMakeFiles/CloveceNezlobSa.dir/soc_server/passive_socket.cpp.obj: CXX_COMPILER__CloveceNezlobSa_unscanned_Debug C$:/Users/adams/CLionProjects/CloveceNezlobSa/soc_server/passive_socket.cpp || cmake_object_order_depends_target_CloveceNezlobSa
+  DEP_FILE = CMakeFiles\CloveceNezlobSa.dir\soc_server\passive_socket.cpp.obj.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\CloveceNezlobSa.dir
+  OBJECT_FILE_DIR = CMakeFiles\CloveceNezlobSa.dir\soc_server
+
+build CMakeFiles/CloveceNezlobSa.dir/soc_server/active_socket.cpp.obj: CXX_COMPILER__CloveceNezlobSa_unscanned_Debug C$:/Users/adams/CLionProjects/CloveceNezlobSa/soc_server/active_socket.cpp || cmake_object_order_depends_target_CloveceNezlobSa
+  DEP_FILE = CMakeFiles\CloveceNezlobSa.dir\soc_server\active_socket.cpp.obj.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\CloveceNezlobSa.dir
+  OBJECT_FILE_DIR = CMakeFiles\CloveceNezlobSa.dir\soc_server
+
+build CMakeFiles/CloveceNezlobSa.dir/soc_client/client_socket.cpp.obj: CXX_COMPILER__CloveceNezlobSa_unscanned_Debug C$:/Users/adams/CLionProjects/CloveceNezlobSa/soc_client/client_socket.cpp || cmake_object_order_depends_target_CloveceNezlobSa
+  DEP_FILE = CMakeFiles\CloveceNezlobSa.dir\soc_client\client_socket.cpp.obj.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\CloveceNezlobSa.dir
+  OBJECT_FILE_DIR = CMakeFiles\CloveceNezlobSa.dir\soc_client
+
 build CMakeFiles/CloveceNezlobSa.dir/main.cpp.obj: CXX_COMPILER__CloveceNezlobSa_unscanned_Debug C$:/Users/adams/CLionProjects/CloveceNezlobSa/main.cpp || cmake_object_order_depends_target_CloveceNezlobSa
   DEP_FILE = CMakeFiles\CloveceNezlobSa.dir\main.cpp.obj.d
   FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
@@ -63,7 +81,7 @@ build CMakeFiles/CloveceNezlobSa.dir/main.cpp.obj: CXX_COMPILER__CloveceNezlobSa
 #############################################
 # Link the executable CloveceNezlobSa.exe
 
-build CloveceNezlobSa.exe: CXX_EXECUTABLE_LINKER__CloveceNezlobSa_Debug CMakeFiles/CloveceNezlobSa.dir/main.cpp.obj
+build CloveceNezlobSa.exe: CXX_EXECUTABLE_LINKER__CloveceNezlobSa_Debug CMakeFiles/CloveceNezlobSa.dir/soc_server/passive_socket.cpp.obj CMakeFiles/CloveceNezlobSa.dir/soc_server/active_socket.cpp.obj CMakeFiles/CloveceNezlobSa.dir/soc_client/client_socket.cpp.obj CMakeFiles/CloveceNezlobSa.dir/main.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lws2_32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\CloveceNezlobSa.dir
