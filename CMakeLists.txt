@@ -10,6 +10,8 @@ add_executable(CloveceNezlobSa
         soc_server/active_socket.h
         soc_client/client_socket.cpp
         soc_client/client_socket.h
-        main.cpp)
+        main.cpp
+        soc_server/setup_server.cpp
+        soc_client/setup_clients.cpp)
 
 target_link_libraries(CloveceNezlobSa ws2_32)
