@@ -1,3 +1,10 @@
-//
-// Created by adams on 3. 1. 2024.
-//
+
+#include "../soc_server/passive_socket.h"
+#include "../soc_server/active_socket.h"
+
+
+int main() {
+
+    PassiveSocket p = {};
+
+}

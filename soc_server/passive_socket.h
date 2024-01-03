@@ -6,15 +6,14 @@
 
 class ActiveSocket;
 
-class PassiveSocket {
-private:
+struct PassiveSocket {
     SOCKET socketDescriptor;
     bool isListening;
     bool isWaiting;
     CRITICAL_SECTION mutex{};
     CONDITION_VARIABLE waitingFinished{};
 
-public:
+
     PassiveSocket();
 
     ~PassiveSocket();
