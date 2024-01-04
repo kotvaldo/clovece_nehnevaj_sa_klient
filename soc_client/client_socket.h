@@ -1,14 +1,21 @@
-//
-// Created by adams on 3. 1. 2024.
-//
+#ifndef SOCKETS_CLIENT_MY_SOCKET_H
+#define SOCKETS_CLIENT_MY_SOCKET_H
 
-#ifndef CLOVECENEZLOBSA_CLIENT_SOCKET_H
-#define CLOVECENEZLOBSA_CLIENT_SOCKET_H
+#include <winsock2.h>
+#include <string>
 
+class ClientSocket {
+public:
+    static ClientSocket* createConnection(std::string hostName, long port);
+    ~ClientSocket();
+    static void connectionOutput(int i);
+protected:
+    explicit ClientSocket(SOCKET socket);
+private:
+    static const char * endMessage;
+    SOCKET connectSocket;
 
-class client_socket {
 
 };
 
-
-#endif //CLOVECENEZLOBSA_CLIENT_SOCKET_H
+#endif //SOCKETS_CLIENT_MY_SOCKET_H
