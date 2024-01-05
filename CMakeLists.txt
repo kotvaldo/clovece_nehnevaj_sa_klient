@@ -1,17 +1,11 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.18.4)
 project(CloveceNezlobSa)
 
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(CloveceNezlobSa
-        soc_server/passive_socket.cpp
-        soc_server/passive_socket.h
-        soc_server/active_socket.cpp
-        soc_server/active_socket.h
-        soc_client/client_socket.cpp
-        soc_client/client_socket.h
         main.cpp
-        soc_server/setup_server.cpp
-        soc_client/setup_clients.cpp)
+        soc_server/server.cpp
+        soc_client/client.cpp
+)
 
-target_link_libraries(CloveceNezlobSa ws2_32)

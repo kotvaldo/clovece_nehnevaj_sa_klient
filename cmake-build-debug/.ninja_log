@@ -1,14 +1,9 @@
 # ninja log v5
-3	1392	7259135295446507	CMakeFiles/CloveceNezlobSa.dir/main.cpp.obj	4c5b2ca85c8453b6
-1393	1472	7259135296186221	CloveceNezlobSa.exe	514b3a03b789e92a
-1	137	7259944201233653	build.ninja	dcdf32b2f065f802
+36	211	7260659065006250	CMakeFiles/CloveceNezlobSa.dir/main.cpp.obj	4c5b2ca85c8453b6
+8	2476	7260662932770788	CMakeFiles/CloveceNezlobSa.dir/soc_client/client_socket.cpp.obj	7dd6f7acf0349a8d
+1577	1757	7260663096773631	CloveceNezlobSa.exe	df6d3aefa0bb8612
+1	137	7261646591168186	build.ninja	dcdf32b2f065f802
 25	210	7260659064996236	CMakeFiles/CloveceNezlobSa.dir/soc_server/active_socket.cpp.obj	b4bfc5ef6025bbba
 34	211	7260659064996236	CMakeFiles/CloveceNezlobSa.dir/soc_server/setup_server.cpp.obj	70dafb3ec396cfc1
-36	211	7260659065006250	CMakeFiles/CloveceNezlobSa.dir/main.cpp.obj	4c5b2ca85c8453b6
-31	2530	7260659088197594	CMakeFiles/CloveceNezlobSa.dir/soc_client/setup_clients.cpp.obj	3d65fb6836c69c7e
-10	2407	7260659481943684	CMakeFiles/CloveceNezlobSa.dir/soc_client/setup_clients.cpp.obj	3d65fb6836c69c7e
-11	2456	7260662932560799	CMakeFiles/CloveceNezlobSa.dir/soc_client/setup_clients.cpp.obj	3d65fb6836c69c7e
-8	2476	7260662932770788	CMakeFiles/CloveceNezlobSa.dir/soc_client/client_socket.cpp.obj	7dd6f7acf0349a8d
-3	1577	7260663095013642	CMakeFiles/CloveceNezlobSa.dir/soc_server/passive_socket.cpp.obj	ae6d8f181fe4ef4a
-1577	1757	7260663096773631	CloveceNezlobSa.exe	df6d3aefa0bb8612
 8	2042	7260663576717959	CMakeFiles/CloveceNezlobSa.dir/soc_client/setup_clients.cpp.obj	3d65fb6836c69c7e
+3	1577	7260663095013642	CMakeFiles/CloveceNezlobSa.dir/soc_server/passive_socket.cpp.obj	ae6d8f181fe4ef4a
