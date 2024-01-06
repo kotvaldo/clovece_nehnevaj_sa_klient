@@ -4,5 +4,7 @@ project(CloveceNezlobSa)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(CloveceNezlobSa client.cpp
+        sockets/client_socket.cpp
+        sockets/client_socket.h
 )
 
