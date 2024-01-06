@@ -4,73 +4,41 @@
 
 #include "client_socket.h"
 
-#define INVALID_SOCKET = -1
-
-client_socket::client_socket(SOCKET socket) {
-    connectSocket(socket);
-    pthread_mutex_init(&mutex, NULL);
-    pthread_cond_init(&waiting_finished, NULL);
-}
-
-client_socket::~client_socket() {
-    if (this->connectSocket != INVALID_SOCKET) {
-        closesocket(this->connectSocket);
-        this->connectSocket = INVALID_SOCKET;
-    }
-    pthread_mutex_destroy(&mutex);
-    pthread_cond_destroy(&waiting_finished);
-}
-
-void client_socket::create_connection(const char* hostName, int port) {
-    int sockfd, n;
-    struct sockaddr_in serv_addr;
-    struct hostent *server;
-
-    char buffer[256];
-
-    server = gethostbyname((char *)HOSTNAME);
-    if (server == NULL) {
-        throw runtime_error("Error, no such host");
+bool client_socket_init(struct client_socket *clientSocket, char *hostName, int port) {
+    clientSocket->server = gethostbyname(hostName);
+    if (clientSocket->server == nullptr) {
+        cout << "Host was not found" << endl;
+        return false;
     }
 
-    bzero(reinterpret_cast<char *>(&serv_addr), sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    memcpy(
-            reinterpret_cast<char *>(&serv_addr.sin_addr.s_addr),
-            server->h_addr,
-            server->h_length
+
+    bzero(reinterpret_cast<char *>(&clientSocket->serv_addr), sizeof(clientSocket->serv_addr));
+    clientSocket->serv_addr.sin_family = AF_INET;
+    std::memcpy(
+            reinterpret_cast<char *>(&clientSocket->serv_addr.sin_addr.s_addr),
+            clientSocket->server->h_addr,
+            clientSocket->server->h_length
     );
-    serv_addr.sin_port = htons(PORT);
+    clientSocket->serv_addr.sin_port = htons(port);
 
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) {
-        throw runtime_error("Error creating socket");
+    clientSocket->socket_descriptior = socket(AF_INET, SOCK_STREAM, 0);
+    if(clientSocket->socket_descriptior < 0) {
+        cout << "Error creating socket !" << endl;
+        return false;
     }
 
-    if (connect(sockfd, reinterpret_cast<struct sockaddr *>(&serv_addr), sizeof(serv_addr)) < 0) {
-        throw runtime_error("Error connecting to socket");
-    } else {
-        send_data();
+    cout << "Client socket " << clientSocket->id <<" was successfully initialized" << endl;
+    return true;
+};
+
+
+bool client_socket_connect(struct client_socket *clientSocket) {
+    if (connect(clientSocket->socket_descriptior, reinterpret_cast<struct sockaddr *>(&clientSocket->serv_addr), sizeof(clientSocket->serv_addr)) < 0)
+    {
+        cout << "Error while connecting.";
+        return false;
     }
 
-    close(sockfd);
-}
-
-void client_socket::send_data(struct client_socket *clientSocket) {
-    pthread_mutex_lock(&clientSocket->mutex);
-    string input = "";
-    while(input == "") {
-        cout << "Zdaja spravu: " << endl;
-        cin >> input >> endl;
-    }
-    char *buffer = new char[input.length() + 1];
-    memcpy(buffer, input.c_str(), input.length());
-    buffer[input.length()] = SOCKET_TERMINATE_CHAR;
-
-    int n = send(connectSocket, buffer, input.length() + 1, 0);
-    if (n == SOCKET_ERROR) {
-        throw runtime_error("send failed\n");
-    }
-    delete[] buffer;
-    pthread_mutex_unlock(&clientSocket->mutex);
-}
+    cout << "Client " << clientSocket->id << " was successfully connected " << endl;
+    return true;
+};

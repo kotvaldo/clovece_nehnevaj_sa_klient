@@ -16,16 +16,17 @@
 using namespace std;
 
 struct client_socket {
-    sockaddr_in cli_addr;
-    SOCKET connectSocket;
+    int id;
+    int socket_descriptior;
     pthread_mutex_t mutex;
-    pthread_cond_t waiting_finished;
+    bool isConnecting;
+    struct sockaddr_in serv_addr;
+    struct hostent *server;
 
-    client_socket(SOCKET socket);
-    ~client_socket();
-    void create_connection(const char* host_name, int port);
-    void send_data(struct client_socket* clientSocket);
 };
 
+bool client_socket_init(struct client_socket *clientSocket, char* hostname, int port);
+bool client_socket_connect(struct client_socket *clientSocket);
+void client_socket_destroy(struct client_socket *clientSocket);
 
 #endif //CLOVECE_NEHNEVAJ_SA_KLIENT_2_CLIENT_SOCKET_H
