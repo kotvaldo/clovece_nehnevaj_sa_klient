@@ -7,22 +7,16 @@
 
 #include <iostream>
 #include <cstring>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <unistd.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+
 
 using namespace std;
 
 struct client_socket {
-    int id;
-    int socket_descriptior;
-    pthread_mutex_t mutex;
-    bool isConnecting;
-    struct sockaddr_in serv_addr;
-    struct hostent *server;
-
+    SOCKET socket_descriptior = INVALID_SOCKET;
+    struct addrinfo *result = NULL;
+    struct addrinfo hints;
 };
 
 bool client_socket_init(struct client_socket *clientSocket, char* hostname, int port);

@@ -8,3 +8,4 @@ add_executable(CloveceNezlobSa client.cpp
         sockets/client_socket.h
 )
 
+target_link_libraries(CloveceNezlobSa ws2_32)

@@ -5,40 +5,48 @@
 #include "client_socket.h"
 
 bool client_socket_init(struct client_socket *clientSocket, char *hostName, int port) {
-    clientSocket->server = gethostbyname(hostName);
-    if (clientSocket->server == nullptr) {
-        cout << "Host was not found" << endl;
+    // Initialize Winsock
+    WSADATA wsaData;
+    int result = 0;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        cout << "Failed to initialize Winsock." << endl;
         return false;
+    } else {
+        cout << "Winsock initialized" << endl;
     }
 
+    ZeroMemory(&clientSocket->hints, sizeof(clientSocket->hints));
+    clientSocket->hints.ai_family = AF_UNSPEC;
+    clientSocket->hints.ai_socktype = SOCK_STREAM;
+    clientSocket->hints.ai_protocol = IPPROTO_TCP;
 
-    bzero(reinterpret_cast<char *>(&clientSocket->serv_addr), sizeof(clientSocket->serv_addr));
-    clientSocket->serv_addr.sin_family = AF_INET;
-    std::memcpy(
-            reinterpret_cast<char *>(&clientSocket->serv_addr.sin_addr.s_addr),
-            clientSocket->server->h_addr,
-            clientSocket->server->h_length
-    );
-    clientSocket->serv_addr.sin_port = htons(port);
-
-    clientSocket->socket_descriptior = socket(AF_INET, SOCK_STREAM, 0);
-    if(clientSocket->socket_descriptior < 0) {
-        cout << "Error creating socket !" << endl;
+    result = getaddrinfo(hostName, std::to_string(port).c_str(), &clientSocket->hints, &clientSocket->result);
+    if (result != 0) {
+        cout << "Host not exist !" << endl;
+        WSACleanup();
         return false;
+    } else {
+        cout << "Host exists !" << endl;
     }
 
-    cout << "Client socket " << clientSocket->id <<" was successfully initialized" << endl;
+    clientSocket->socket_descriptior = socket(AF_INET, clientSocket->result->ai_socktype, clientSocket->result->ai_protocol);
+    if (clientSocket->socket_descriptior == INVALID_SOCKET) {
+        WSACleanup();
+        cout << "Socket Failed to create" << endl;
+    }
+
+    cout << "Client socket was successfully initialized" << endl;
     return true;
-};
-
+}
 
 bool client_socket_connect(struct client_socket *clientSocket) {
-    if (connect(clientSocket->socket_descriptior, reinterpret_cast<struct sockaddr *>(&clientSocket->serv_addr), sizeof(clientSocket->serv_addr)) < 0)
-    {
-        cout << "Error while connecting.";
+    if (connect(clientSocket->socket_descriptior, clientSocket->result->ai_addr, (int)clientSocket->result->ai_addrlen) == SOCKET_ERROR) {
+        cout << "Error while connecting." << endl;
+        closesocket(clientSocket->socket_descriptior);
+        WSACleanup();
         return false;
     }
 
-    cout << "Client " << clientSocket->id << " was successfully connected " << endl;
+    cout << "Client  was successfully connected " << endl;
     return true;
-};
+}
