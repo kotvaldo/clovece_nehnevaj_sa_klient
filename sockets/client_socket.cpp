@@ -4,6 +4,8 @@
 
 #include "client_socket.h"
 
+#define INVALID_SOCKET = -1
+
 client_socket::client_socket(SOCKET socket) {
     connectSocket(socket);
     pthread_mutex_init(&mutex, NULL);
@@ -15,26 +17,20 @@ client_socket::~client_socket() {
         closesocket(this->connectSocket);
         this->connectSocket = INVALID_SOCKET;
     }
-    WSACleanup();
     pthread_mutex_destroy(&mutex);
     pthread_cond_destroy(&waiting_finished);
 }
 
-void client_socket::create_connection(string hostName, int port) {
+void client_socket::create_connection(const char* hostName, int port) {
     int sockfd, n;
     struct sockaddr_in serv_addr;
     struct hostent *server;
 
     char buffer[256];
 
-    server = gethostbyname(HOSTNAME);
+    server = gethostbyname((char *)HOSTNAME);
     if (server == NULL) {
         throw runtime_error("Error, no such host");
-    }
-
-    n = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (n != 0) {
-        throw runtime_error("WSAStartup failed with error: " + to_string(n) + "\n");
     }
 
     bzero(reinterpret_cast<char *>(&serv_addr), sizeof(serv_addr));
@@ -65,15 +61,15 @@ void client_socket::send_data(struct client_socket *clientSocket) {
     string input = "";
     while(input == "") {
         cout << "Zdaja spravu: " << endl;
-        cin >> input;
+        cin >> input >> endl;
     }
-    char *buffer = new char[data.length() + 1];
-    memcpy(buffer, data.c_str(), data.length());
-    buffer[data.length()] = SOCKET_TERMINATE_CHAR;
+    char *buffer = new char[input.length() + 1];
+    memcpy(buffer, input.c_str(), input.length());
+    buffer[input.length()] = SOCKET_TERMINATE_CHAR;
 
-    int n = send(connectSocket, buffer, data.length() + 1, 0);
+    int n = send(connectSocket, buffer, input.length() + 1, 0);
     if (n == SOCKET_ERROR) {
-        throw std::runtime_error("send failed with error: " + std::to_string(WSAGetLastError()) + "\n");
+        throw runtime_error("send failed\n");
     }
     delete[] buffer;
     pthread_mutex_unlock(&clientSocket->mutex);

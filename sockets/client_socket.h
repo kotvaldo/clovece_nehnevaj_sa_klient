@@ -23,8 +23,8 @@ struct client_socket {
 
     client_socket(SOCKET socket);
     ~client_socket();
-    void create_connection(string host_name, int port);
-    void send_data(struct client_socket* clientSocket, const string& data);
+    void create_connection(const char* host_name, int port);
+    void send_data(struct client_socket* clientSocket);
 };
 
 
