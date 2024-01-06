@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/CloveceNezlobSa.dir/client.cpp.o CMakeFiles/CloveceNezlobSa.dir/sockets/client_socket.cpp.o -o CloveceNezlobSa 
