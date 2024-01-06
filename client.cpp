@@ -10,7 +10,7 @@
 int main(int argc, char *argv[]) {
 
     char* hostname = (char*)"frios2.fri.uniza.sk";
-    client_socket clientSocket = {1};
+    client_socket clientSocket = {};
     client_socket_init(&clientSocket, hostname, 11000);
     client_socket_connect(&clientSocket);
 
