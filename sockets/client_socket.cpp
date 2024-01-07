@@ -9,12 +9,12 @@ bool client_socket_init(struct client_socket *clientSocket, char *hostName, int 
     // Initialize Winsock
 
     clientSocket->is_reading = false;
-    pthread_mutex_init(&clientSocket->mutex_reading, NULL);
-    pthread_mutex_init(&clientSocket->mutex_writing, NULL);
-    pthread_mutex_init(&clientSocket->mutex_received_data, NULL);
+    pthread_mutex_init(&clientSocket->mutex_reading, nullptr);
+    pthread_mutex_init(&clientSocket->mutex_writing, nullptr);
+    pthread_mutex_init(&clientSocket->mutex_received_data, nullptr);
 
     WSADATA wsaData;
-    int result = 0;
+    int result;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         cout << "Failed to initialize Winsock." << endl;
         return false;
@@ -101,7 +101,7 @@ void client_socket_read(struct client_socket *self) {
         FD_ZERO(&sockets);
         FD_SET(self->socket_descriptor, &sockets);
 
-        int result = select(0, &sockets, NULL, NULL, &tv);
+        int result = select(0, &sockets, nullptr, nullptr, &tv);
 
         if (result == SOCKET_ERROR) {
             perror("select failed.");
@@ -130,14 +130,9 @@ void client_socket_read(struct client_socket *self) {
                         ss << ch;
                     }
                 }
-            } else if (bytesRead == 0) {
-                // End of input (EOF)
-                cout << "0 characters entered" << endl;
-                client_socket_stop_reading(self);
-                break;
             } else {
-                // bytesRead < 0 - read error
-                perror("recv failed.");
+                string s = "error";
+                self->data.push_back(s);
                 client_socket_stop_reading(self);
                 break;
             }
@@ -157,5 +152,5 @@ void client_socket_write(struct client_socket *clientSocket, string message) {
         throw std::runtime_error("send failed with error: " + std::to_string(WSAGetLastError()) + "\n");
     }
     free(buffer);
-    buffer = NULL;
+    buffer = nullptr;
 }
