@@ -3,17 +3,34 @@
 //
 
 #include "sockets/client_socket.h"
+#include <iostream>
+#include <thread>
 
-#define HOSTNAME 0 = (char*)"frios2.fri.uniza.sk"
-#define PORT = 11000
+using namespace std;
 
 int main(int argc, char *argv[]) {
 
     char* hostname = (char*)"frios2.fri.uniza.sk";
+    int port = 11000;
     client_socket clientSocket = {};
-    client_socket_init(&clientSocket, hostname, 11000);
-    client_socket_connect(&clientSocket);
 
-    system("pause");
+    bool connected = false;
+    while(!connected) {
+        if( client_socket_init(&clientSocket, hostname, port)) {
+            connected = client_socket_connect(&clientSocket);
+        } else {
+            cout << "Pausing for 5 seconds" << endl;
+            this_thread::sleep_for(std::chrono::seconds(5));
+        }
+
+    }
+
+
+    client_socket_write(&clientSocket, "message");
+
+    client_socket_read(&clientSocket);
+    for (int i = 0; i < clientSocket.data.size(); ++i) {
+        cout << clientSocket.data[i];
+    }
     return 0;
 }
