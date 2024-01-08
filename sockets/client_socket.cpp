@@ -112,7 +112,7 @@ void client_socket_read(struct client_socket *self) {
         }
 
         if (result > 0) {
-            char buffer[100] = {};  // Initialize buffer to 0
+            char buffer[1024] = {};  // Initialize buffer to 0
 
             ssize_t bytesRead = recv(self->socket_descriptor, buffer, sizeof(buffer), 0);
 
