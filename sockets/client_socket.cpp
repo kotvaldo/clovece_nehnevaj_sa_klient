@@ -131,8 +131,6 @@ void client_socket_read(struct client_socket *self) {
                     }
                 }
             } else {
-                string s = "error";
-                self->data.push_back(s);
                 client_socket_stop_reading(self);
                 break;
             }
