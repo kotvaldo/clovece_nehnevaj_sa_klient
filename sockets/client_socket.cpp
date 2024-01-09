@@ -95,7 +95,7 @@ void client_socket_read(struct client_socket *self) {
 
     fd_set sockets;
     struct timeval tv;
-    tv.tv_sec = 1;  // Set an appropriate waiting time
+    tv.tv_sec = 100;  // Nastavte vhodný čas čakania
 
     while (client_socket_is_reading(self)) {
         FD_ZERO(&sockets);
@@ -103,18 +103,18 @@ void client_socket_read(struct client_socket *self) {
 
         int result = select(0, &sockets, nullptr, nullptr, &tv);
 
-        if (result == SOCKET_ERROR) {
+        if (result == -1) {
             perror("select failed.");
             client_socket_stop_reading(self);
-            closesocket(self->socket_descriptor);
+            client_socket_destroy(self);
             self->socket_descriptor = INVALID_SOCKET;
             break;
         }
 
         if (result > 0) {
-            char buffer[1024] = {};  // Initialize buffer to 0
+            char* buffer = (char*)calloc(255, sizeof(char));
 
-            ssize_t bytesRead = recv(self->socket_descriptor, buffer, sizeof(buffer), 0);
+            ssize_t bytesRead = recv(self->socket_descriptor, buffer, sizeof(buffer),  0);
 
             if (bytesRead > 0) {
                 stringstream ss;
@@ -130,11 +130,22 @@ void client_socket_read(struct client_socket *self) {
                         ss << ch;
                     }
                 }
+            } else if (bytesRead == 0) {
+                // Koniec vstupu (EOF)
+                cout << "0 znakov zadanych pri citani na serveri" << endl;
+                client_socket_stop_reading(self);
+                break;
             } else {
+                // bytesRead < 0 - chyba pri čítaní
+                perror("read failed na serveri.");
                 client_socket_stop_reading(self);
                 break;
             }
+
+            free(buffer);
+            buffer = nullptr;
         }
+
     }
 }
 

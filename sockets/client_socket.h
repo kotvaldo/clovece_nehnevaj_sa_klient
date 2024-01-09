@@ -22,7 +22,7 @@ struct client_socket {
     pthread_mutex_t mutex_reading;
     pthread_mutex_t mutex_writing;
     pthread_mutex_t mutex_received_data;
-    vector<string> data;
+    vector<string> data = {"init"};
 };
 
 bool client_socket_init(struct client_socket *clientSocket, char* hostname, int port);
